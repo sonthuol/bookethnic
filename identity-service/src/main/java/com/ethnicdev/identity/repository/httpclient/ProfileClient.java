@@ -11,6 +11,6 @@ import com.ethnicdev.identity.dto.response.UserProfileResponse;
 @FeignClient(name = "profile-service", url = "${app.services.profile}")
 public interface ProfileClient {
 
-    @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/internal/users", produces = MediaType.APPLICATION_JSON_VALUE)
     UserProfileResponse creteProfile(@RequestBody ProfileCreationRequest request);
 }
