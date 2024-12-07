@@ -51,13 +51,7 @@ public class UserServiceTest {
                 .dob(dob)
                 .build();
 
-        this.user = User.builder()
-                .id("cf03123482342342342")
-                .username("john")
-                .firstName("John")
-                .lastName("Doe")
-                .dob(dob)
-                .build();
+        this.user = User.builder().id("cf03123482342342342").username("john").build();
     }
 
     @Test

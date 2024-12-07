@@ -73,10 +73,7 @@ public class UserControllerIntegrationTest {
                         .content(content))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("code").value(1000))
-                .andExpect(jsonPath("result.username").value("john"))
-                .andExpect(jsonPath("result.firstName").value("John"))
-                .andExpect(jsonPath("result.lastName").value("Doe"))
-                .andExpect(jsonPath("result.dob").value("2000-01-24"));
+                .andExpect(jsonPath("result.username").value("john"));
         log.info("Result: {}", response.andReturn().getResponse().getContentAsString());
     }
 }

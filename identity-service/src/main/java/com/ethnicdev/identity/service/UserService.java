@@ -10,16 +10,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ethnicdev.identity.constant.PredefinedRole;
+import com.ethnicdev.identity.dto.request.ProfileCreationRequest;
 import com.ethnicdev.identity.dto.request.UserCreationRequest;
 import com.ethnicdev.identity.dto.request.UserUpdateRequest;
+import com.ethnicdev.identity.dto.response.UserProfileResponse;
 import com.ethnicdev.identity.dto.response.UserResponse;
+import com.ethnicdev.identity.entity.Role;
 import com.ethnicdev.identity.entity.User;
-import com.ethnicdev.identity.enums.Role;
 import com.ethnicdev.identity.exception.AppException;
 import com.ethnicdev.identity.exception.ErrorCode;
+import com.ethnicdev.identity.mapper.ProfileMapper;
 import com.ethnicdev.identity.mapper.UserMapper;
 import com.ethnicdev.identity.repository.RoleRepository;
 import com.ethnicdev.identity.repository.UserRepository;
+import com.ethnicdev.identity.repository.httpclient.ProfileClient;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -35,19 +40,38 @@ public class UserService {
     UserRepository userRepository;
     RoleRepository roleRepository;
     UserMapper userMapper;
+    ProfileMapper profileMapper;
     PasswordEncoder passwordEncoder;
+    ProfileClient profileClient;
 
     public UserResponse createUser(UserCreationRequest request) {
-        log.info("Service: Create user");
+
+        // Check user exists
         if (this.userRepository.existsByUsername(request.getUsername())) {
+            // If user exists then throw exception
             throw new AppException(ErrorCode.USER_EXISTED);
         }
+
+        // Convert to user entity
         User user = this.userMapper.toUser(request);
+
+        // Set password after encode
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        // user.setRoles(roles);
-        return this.userMapper.toUserResponse(this.userRepository.save(user));
+
+        // Set role
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
+        user.setRoles(roles);
+
+        // Save user
+        user = this.userRepository.save(user);
+
+        // Convert to profile request
+        ProfileCreationRequest profileCreationRequest = this.profileMapper.toProfileCreationRequest(request);
+        profileCreationRequest.setUserId(user.getId());
+        UserProfileResponse userProfileResponse = this.profileClient.creteProfile(profileCreationRequest);
+        log.info(userProfileResponse.toString());
+        return this.userMapper.toUserResponse(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
