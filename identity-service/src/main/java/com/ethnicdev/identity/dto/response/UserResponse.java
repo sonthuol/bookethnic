@@ -1,6 +1,5 @@
 package com.ethnicdev.identity.dto.response;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 import lombok.AccessLevel;
@@ -20,12 +19,6 @@ public class UserResponse {
     String id;
 
     String username;
-
-    String firstName;
-
-    String lastName;
-
-    LocalDate dob;
 
     Set<RoleResponse> roles;
 }

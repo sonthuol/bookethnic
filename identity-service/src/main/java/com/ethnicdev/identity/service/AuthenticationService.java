@@ -80,11 +80,11 @@ public class AuthenticationService {
     }
 
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
-        boolean isValid = false;
+        boolean isValid = true;
         try {
             this.verifyToken(request.getToken(), false);
         } catch (AppException e) {
-            isValid = true;
+            isValid = false;
         }
         return IntrospectResponse.builder().valid(isValid).build();
     }

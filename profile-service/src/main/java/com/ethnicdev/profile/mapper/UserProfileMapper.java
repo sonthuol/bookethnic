@@ -12,7 +12,6 @@ import com.ethnicdev.profile.entity.UserProfile;
 public interface UserProfileMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "userId", ignore = true)
     UserProfile toUserProfile(ProfileCreationRequest request);
 
     UserProfileResponse toUserProfileResponse(UserProfile entity);

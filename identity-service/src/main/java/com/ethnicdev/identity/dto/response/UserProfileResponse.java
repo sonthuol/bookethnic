@@ -1,4 +1,4 @@
-package com.ethnicdev.profile.dto.request;
+package com.ethnicdev.identity.dto.response;
 
 import java.time.LocalDate;
 
@@ -14,9 +14,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProfileCreationRequest {
+public class UserProfileResponse {
 
-    String userId;
+    String id;
     String firstName;
     String lastName;
     LocalDate dob;
