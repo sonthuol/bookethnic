@@ -1,5 +1,7 @@
 package com.ethnicdev.profile.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,11 @@ import lombok.experimental.FieldDefaults;
 public class UserProfileController {
 
     UserProfileService userProfileService;
+
+    @GetMapping("/users")
+    List<UserProfileResponse> getAllProfiles() {
+        return userProfileService.getAllProfiles();
+    }
 
     @GetMapping("/users/{profileId}")
     UserProfileResponse getProfile(@PathVariable String profileId) {
