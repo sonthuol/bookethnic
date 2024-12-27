@@ -12,5 +12,5 @@ import com.ethnicdev.identity.dto.response.UserProfileResponse;
 public interface ProfileClient {
 
     @PostMapping(value = "/internal/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    UserProfileResponse creteProfile(@RequestBody ProfileCreationRequest request);
+    UserProfileResponse createProfile(@RequestBody ProfileCreationRequest request);
 }

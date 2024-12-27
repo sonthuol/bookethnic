@@ -69,7 +69,7 @@ public class UserService {
         // Convert to profile request
         ProfileCreationRequest profileCreationRequest = this.profileMapper.toProfileCreationRequest(request);
         profileCreationRequest.setUserId(user.getId());
-        UserProfileResponse userProfileResponse = this.profileClient.creteProfile(profileCreationRequest);
+        UserProfileResponse userProfileResponse = this.profileClient.createProfile(profileCreationRequest);
         log.info(userProfileResponse.toString());
         return this.userMapper.toUserResponse(user);
     }
