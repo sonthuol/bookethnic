@@ -25,6 +25,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * User controller.
+ *
+ * @author Thuol-S
+ */
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -34,6 +39,12 @@ public class UserController {
 
     UserService userService;
 
+    /**
+     * Register new user.
+     *
+     * @param request User request
+     * @return User response
+     */
     @PostMapping("/registration")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         log.info("Controller: Create user");
@@ -42,6 +53,11 @@ public class UserController {
                 .build();
     }
 
+    /**
+     * Get all user.
+     *
+     * @return Information of users
+     */
     @GetMapping
     ApiResponse<List<UserResponse>> getUsers() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,6 +68,12 @@ public class UserController {
                 .build();
     }
 
+    /**
+     * Get user by id.
+     *
+     * @param userId Id of user
+     * @return Information of user
+     */
     @GetMapping("/{userId}")
     ApiResponse<UserResponse> getUser(@PathVariable String userId) {
         return ApiResponse.<UserResponse>builder()
@@ -59,6 +81,11 @@ public class UserController {
                 .build();
     }
 
+    /**
+     * Get information of user.
+     *
+     * @return Information of user
+     */
     @GetMapping("/myInfo")
     ApiResponse<UserResponse> getMyInfo() {
         return ApiResponse.<UserResponse>builder()
@@ -66,6 +93,13 @@ public class UserController {
                 .build();
     }
 
+    /**
+     * Update user by id.
+     *
+     * @param userId Id of user
+     * @param request User request
+     * @return Information of user after updated
+     */
     @PutMapping("/{userId}")
     ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
         return ApiResponse.<UserResponse>builder()
@@ -73,6 +107,12 @@ public class UserController {
                 .build();
     }
 
+    /**
+     * Delete user by id
+     *
+     * @param userId Id of user
+     * @return Message user deleted
+     */
     @DeleteMapping("/{userId}")
     String deleteUser(@PathVariable String userId) {
         this.userService.deleteUser(userId);

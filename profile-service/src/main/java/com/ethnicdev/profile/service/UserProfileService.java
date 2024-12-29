@@ -2,6 +2,7 @@ package com.ethnicdev.profile.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.ethnicdev.profile.dto.request.ProfileCreationRequest;
@@ -37,6 +38,7 @@ public class UserProfileService {
         return this.userProfileMapper.toUserProfileResponse(enity);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserProfileResponse> getAllProfiles() {
         var profiles = userProfileRepository.findAll();
         return profiles.stream().map(userProfileMapper::toUserProfileResponse).toList();
